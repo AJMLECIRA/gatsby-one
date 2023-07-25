@@ -1,9 +1,11 @@
 import React from "react";
 import Layout from "./components/Layout";
 import { header, btn } from "../styles/home.module.css";
-import { Link } from "gatsby";
+import { Link, graphql } from "gatsby";
+import { GatsbyImage } from "gatsby-plugin-image";
 
-export default function Home() {
+export default function Home({ data }) {
+  console.log(data);
   return (
     <Layout>
       <section className={header}>
@@ -15,7 +17,22 @@ export default function Home() {
             Projects
           </Link>
         </div>
+        <GatsbyImage
+          image={data.file.childImageSharp.gatsbyImageData}
+          alt='Your alt text'
+        />
       </section>
     </Layout>
   );
 }
+export const query = graphql`
+  query Banner {
+    file(relativePath: { eq: "mirrorworldlogo600x600.png" }) {
+      id
+      name
+      childImageSharp {
+        gatsbyImageData(layout: FULL_WIDTH)
+      }
+    }
+  }
+`;
